@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB30</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB1</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Latihan Kosakata</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: white;
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  input {
+    width: 90%;
+    padding: 8px;
+    margin-top: 15px;
+  }
+  button {
+    margin-top: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  .result {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .wrong { color: red; }
+  .correct { color: green; }
+  ol { text-align:left; max-height:400px; overflow:auto; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <input type="text" id="answerInput" placeholder="Tulis jawaban di sini">
+  <br>
+  <button id="nextBtn">Selanjutnya</button>
+</div>
+
+<script>
+let questions = [
+{ soal: "대중문화", jawaban: "budaya populer (umum)" },
+{ soal: "아이돌", jawaban: "idola" },
+{ soal: "경기장", jawaban: "stadion" },
+{ soal: "배우", jawaban: "aktor / artis" },
+{ soal: "인기", jawaban: "popularitas" },
+{ soal: "인기를 끌다", jawaban: "mendapat popularitas" },
+{ soal: "것 같다", jawaban: "sepertinya" },
+{ soal: "영향을 주다", jawaban: "memberikan pengaruh" },
+{ soal: "쉽다", jawaban: "mudah" },
+{ soal: "따라 추다", jawaban: "menari mengikuti" },
+{ soal: "어렵다", jawaban: "sulit" },
+{ soal: "따라 부르다", jawaban: "menyanyi mengikuti" },
+{ soal: "관람하다", jawaban: "menonton / menyaksikan" },
+{ soal: "관중", jawaban: "penonton" },
+{ soal: "관중석", jawaban: "tribun penonton" },
+{ soal: "다음에 뵙겠습니다", jawaban: "sampai jumpa lain kali" },
+{ soal: "프로팀", jawaban: "tim profesional" },
+{ soal: "응원단", jawaban: "tim pendukung" },
+{ soal: "응원가", jawaban: "lagu penyemangat" },
+{ soal: "응원하다", jawaban: "mendukung" },
+{ soal: "다양성", jawaban: "keberagaman" },
+{ soal: "유니폼", jawaban: "seragam" },
+{ soal: "팬클럽", jawaban: "klub penggemar" },
+{ soal: "알리다", jawaban: "memperkenalkan" },
+{ soal: "입장권", jawaban: "tiket masuk" },
+{ soal: "화려", jawaban: "berkilau" },
+{ soal: "닫는", jawaban: "menutup" },
+{ soal: "무대", jawaban: "panggung" },
+{ soal: "꽃망울", jawaban: "kuncup bunga" },
+{ soal: "끌다", jawaban: "menarik perhatian" },
+{ soal: "한류", jawaban: "trend budaya korea (Hallyu)" },
+{ soal: "중심", jawaban: "pusat" },
+{ soal: "K-팝", jawaban: "K-POP" },
+{ soal: "흥미진진", jawaban: "menarik perhatian" },
+{ soal: "K-댄스", jawaban: "tarian Korea (dance)" },
+{ soal: "실감", jawaban: "realistis" },
+{ soal: "K-드라마", jawaban: "drama Korea" },
+{ soal: "연기", jawaban: "akting" },
+{ soal: "K-푸드", jawaban: "makanan Korea" },
+{ soal: "영상", jawaban: "gambar / visual" },
+{ soal: "K-뷰티", jawaban: "produk kecantikan Korea" },
+{ soal: "얻다", jawaban: "memperoleh" },
+{ soal: "K-웹툰", jawaban: "komik daring Korea" },
+{ soal: "작품", jawaban: "karya" },
+{ soal: "K-예능", jawaban: "acara hiburan Korea" },
+{ soal: "메이크업", jawaban: "make up" },
+{ soal: "가수", jawaban: "penyanyi" },
+{ soal: "이끌다", jawaban: "memimpin" },
+{ soal: "스킨케어", jawaban: "perawatan kulit (skincare)" },
+];
+
+// Acak soal
+questions = questions.sort(() => Math.random() - 0.5);
+
+let index = 0;
+let score = 0;
+let userAnswers = [];
+
+const questionEl = document.getElementById("question");
+const answerInput = document.getElementById("answerInput");
+const nextBtn = document.getElementById("nextBtn");
+const card = document.querySelector(".card");
+
+function showQuestion() {
+  questionEl.textContent = "Soal " + (index + 1) + ": " + questions[index].soal;
+  answerInput.value = "";
+  answerInput.focus();
+}
+
+nextBtn.addEventListener("click", () => {
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  userAnswers[index] = userAnswer; // simpan jawaban sesuai index
+
+  if (userAnswer === questions[index].jawaban) {
+    score++;
+  }
+
+  index++;
+  if (index < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult() {
+  let answerList = "";
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.jawaban) {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span></li>`;
+    } else {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span><br>
+                     Jawaban kamu: <span class="wrong">${userAnswers[i] || "(kosong)"}</span></li>`;
+    }
+  });
+
+  card.innerHTML = `
+    <h2>Hasil</h2>
+    <p class="result">Nilai: ${score} / ${questions.length}</p>
+    <hr>
+    <p>Kunci Jawaban:</p>
+    <ol>${answerList}</ol>
+  `;
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
+    
+  </body>
+  
+</html>
